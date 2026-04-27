@@ -1,0 +1,118 @@
+/* kartagl.css */
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr 280px;
+    gap: 30px;
+    height: calc(85vh - 60px);
+}
+
+.ui-card {
+    background: #ffffff;
+    border: 2px solid #f0f4f8;
+    border-radius: 24px;
+    padding: 25px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.avatar-large {
+    width: 90px; height: 90px;
+    background: linear-gradient(135deg, #2ecc71, #a8e6cf);
+    color: white; font-size: 3rem; font-weight: 900;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 15px auto; box-shadow: 0 10px 25px rgba(46, 204, 113, 0.3);
+}
+
+.level-badge {
+    display: inline-block; background: #ffeaa7; color: #d35400; 
+    padding: 5px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 800;
+}
+
+.progress-section-mini { margin-top: 20px; text-align: left; font-size: 0.85rem; color: #7f8c8d; font-weight: bold;}
+.mini-progress-bar { width: 100%; height: 12px; background: #f0f4f8; border-radius: 10px; margin-top: 5px; overflow: hidden; }
+#dash-level-bar { height: 100%; background: var(--primary); transition: width 0.5s ease; }
+
+.cozy-card-peach { background: #fff9e6; border-color: #ffeaa7; text-align: left; }
+.cozy-card-mint { background: #f0fdf4; border-color: #a8e6cf; text-align: left; }
+.cozy-card-peach h4, .cozy-card-mint h4 { margin: 0 0 10px 0; font-size: 1.1rem; }
+.cozy-card-peach p, .cozy-card-mint p { font-size: 0.95rem; color: #636e72; line-height: 1.5; margin: 0; }
+
+.daily-progress { width: 100%; height: 12px; background: white; border-radius: 10px; margin-top: 15px; border: 1px solid #ffeaa7; overflow: hidden;}
+.daily-fill { width: 30%; height: 100%; background: #fdcb6e; border-radius: 10px; }
+
+/* ŚRODEK */
+.center-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 0 10px; }
+.center-header h2 { margin: 0; font-weight: 800; }
+.stat-bubble { background: #f1c40f; color: white; padding: 8px 20px; border-radius: 15px; font-weight: 800; box-shadow: 0 4px 0 #f39c12; }
+
+.lessons-scroll-container { height: calc(100% - 60px); overflow-y: auto; padding: 10px; }
+.lessons-scroll-container::-webkit-scrollbar { width: 8px; }
+.lessons-scroll-container::-webkit-scrollbar-track { background: transparent; }
+.lessons-scroll-container::-webkit-scrollbar-thumb { background: #dcdde1; border-radius: 10px; }
+
+.lesson-card {
+    background: white; border: 3px solid #f0f4f8; border-radius: 25px;
+    padding: 25px; margin-bottom: 20px; display: flex; justify-content: space-between;
+    align-items: center; transition: 0.2s;
+}
+.lesson-card:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(46,204,113,0.1); }
+.lesson-info h3 { margin: 0 0 5px 0; font-size: 1.3rem; }
+
+.start-btn { 
+    background: var(--primary); color: white; border: none; padding: 12px 25px;
+    border-radius: 15px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 0 var(--primary-hover);
+    font-family: inherit; font-size: 1rem;
+}
+.start-btn:active { transform: translateY(4px); box-shadow: none; }
+
+@media (max-width: 950px) {
+    .dashboard-layout { grid-template-columns: 1fr; height: auto; }
+    .lessons-scroll-container { height: auto; overflow-y: visible; }
+}
+
+/* --- ŚRODEK --- */
+.dashboard-center {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Wymusza trzymanie się wysokości siatki */
+    overflow: hidden; /* Blokuje rozpychanie kontenera na zewnątrz */
+}
+
+.center-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 20px; 
+    padding: 0 10px; 
+    flex-shrink: 0; /* Nagłówek nie może się kurczyć */
+}
+
+.center-header h2 { margin: 0; font-weight: 800; }
+.stat-bubble { background: #f1c40f; color: white; padding: 8px 20px; border-radius: 15px; font-weight: 800; box-shadow: 0 4px 0 #f39c12; }
+
+.lessons-scroll-container { 
+    flex-grow: 1; /* Zajmuje całą resztę dostępnego miejsca */
+    overflow-y: auto; /* Włącza scrollowanie */
+    padding: 10px; 
+    padding-right: 15px; /* Margines, żeby pasek nie wchodził na karty */
+}
+
+/* Uroczy pasek przewijania */
+.lessons-scroll-container::-webkit-scrollbar { width: 8px; }
+.lessons-scroll-container::-webkit-scrollbar-track { background: transparent; }
+.lessons-scroll-container::-webkit-scrollbar-thumb { background: #dcdde1; border-radius: 10px; }
+
+.lesson-card {
+    background: white; border: 3px solid #f0f4f8; border-radius: 25px;
+    padding: 25px; margin-bottom: 20px; display: flex; justify-content: space-between;
+    align-items: center; transition: 0.2s;
+}
+.lesson-card:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(46,204,113,0.1); }
+.lesson-info h3 { margin: 0 0 5px 0; font-size: 1.3rem; }
+
+.start-btn { 
+    background: var(--primary); color: white; border: none; padding: 12px 25px;
+    border-radius: 15px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 0 var(--primary-hover);
+    font-family: inherit; font-size: 1rem;
+}
+.start-btn:active { transform: translateY(4px); box-shadow: none; }

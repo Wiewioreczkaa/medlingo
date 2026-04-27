@@ -1,0 +1,261 @@
+/* style.css */
+:root {
+    --primary: #2ecc71;
+    --primary-hover: #27ae60;
+    --secondary: #3498db;
+    --bg: #f4f7f6;
+    --text-main: #2c3e50;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: var(--bg);
+    margin: 0; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    min-height: 100vh;
+}
+
+#app {
+    background: white; 
+    width: 95%; 
+    max-width: 1100px; /* <--- To jest klucz do szerokiego ekranu! */
+    min-height: 85vh;
+    border-radius: 40px; 
+    box-shadow: 0 20px 60px rgba(0,0,0,0.05);
+    padding: 30px; 
+    position: relative; 
+    overflow: hidden;
+    color: var(--text-main);
+}
+
+
+/* Węższe kontenery dla skupienia */
+#auth-section { max-width: 400px; margin: 0 auto; text-align: center; padding-top: 5vh; }
+#summary-section { max-width: 600px; margin: 0 auto; }
+#game-section { max-width: 100%; width: 100%; } /* Pozwala zająć całe miejsce na panele */
+
+.hero-icon { font-size: 80px; margin-bottom: 10px; }
+h1 { font-size: 2.8rem; margin: 0; font-weight: 900; }
+.subtitle { color: #7f8c8d; font-size: 1.1rem; margin-bottom: 30px; }
+
+input {
+    width: 100%; padding: 18px; margin: 10px 0; 
+    border: 2px solid #e0e0e0; border-radius: 20px; 
+    box-sizing: border-box; font-size: 1rem; font-family: inherit;
+    background: #fdfdfd; transition: 0.3s; outline: none;
+}
+input:focus { border-color: var(--primary); background: white; }
+
+.btn-main {
+    background: var(--primary); color: white; border: none; width: 100%;
+    padding: 20px; border-radius: 20px; font-weight: 800; cursor: pointer;
+    box-shadow: 0 6px 0 var(--primary-hover); transition: 0.1s; font-size: 1.1rem;
+    margin-top: 10px; font-family: inherit;
+}
+.btn-main:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--primary-hover); }
+
+.btn-sub {
+    background: white; color: var(--secondary); border: 2px solid var(--secondary);
+    width: 100%; padding: 15px; border-radius: 20px; font-weight: 800; cursor: pointer;
+    margin-top: 15px; transition: 0.2s; font-family: inherit; font-size: 1rem;
+}
+.btn-sub:hover { background: #f0f8ff; }
+.btn-logout { border-color: #e74c3c; color: #e74c3c; margin-top: 0; }
+.btn-logout:hover { background: #fdf0ef; }
+
+/* --- WIZUALIZACJE W TLE --- */
+
+#background-visuals {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* Chowa warstwę ZA całą Twoją aplikacją */
+    pointer-events: none; /* Sprawia, że warstwa jest "przezroczysta" dla myszki, nie blokuje klikania */
+    overflow: hidden;
+}
+
+.floating-icon {
+    position: absolute;
+    bottom: -50px; /* Startują nieco poniżej krawędzi ekranu */
+    opacity: 0; /* Zaczynają jako niewidoczne */
+    animation: floatUp linear infinite; /* Ciągła, nieskończona animacja */
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+}
+
+/* Klatki kluczowe animacji unoszenia się i obracania */
+@keyframes floatUp {
+    0% { 
+        transform: translateY(0) rotate(0deg); 
+        opacity: 0; 
+    }
+    10% { 
+        opacity: 0.15; /* Delikatna przezroczystość, by nie rozpraszały */
+    }
+    90% { 
+        opacity: 0.15; 
+    }
+    100% { 
+        transform: translateY(-110vh) rotate(360deg); /* Lecą do samej góry i obracają się o 360 stopni */
+        opacity: 0; 
+    }
+}
+
+/* W trybie Neon (Karta Pytań) zmieniamy ikony na białe dla lepszego klimatu! */
+body:has(#game-section[style*="display: block"]) .floating-icon {
+    filter: grayscale(100%) brightness(200%) drop-shadow(0 0 5px rgba(255,255,255,0.3));
+    opacity: 0.05 !important;
+}
+
+/* --- EFEKTY KLIKNIĘCIA (RIPPLE) --- */
+
+.ripple-effect {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0); /* Zaczyna jako kropka */
+    animation: ripple-anim 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    background: rgba(255, 255, 255, 0.4); /* Półprzezroczysty biały blask */
+    pointer-events: none; /* Zapobiega blokowaniu kolejnych kliknięć */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); /* Dodatkowy neonowy glow */
+}
+
+@keyframes ripple-anim {
+    to {
+        transform: scale(4); /* Rozrasta się na cały przycisk */
+        opacity: 0;          /* I płynnie znika */
+    }
+}
+
+/* ====================================================
+   EFEKTY BŁYSKU I SPRĘŻYSTEGO KLIKNIĘCIA (JUICY BUTTONS)
+   ==================================================== */
+
+.btn-main, .btn-sub, .start-btn {
+    position: relative;
+    overflow: hidden; /* Trzyma błysk wewnątrz przycisku */
+    /* cubic-bezier odpowiada za efekt sprężyny (wyskakuje minimalnie poza skalę i wraca) */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important; 
+}
+
+/* 1. Unoszenie i powiększanie (HOVER) */
+.btn-main:hover, .start-btn:hover:not(:disabled) {
+    transform: translateY(-4px) scale(1.03) !important;
+    /* Dodajemy ładny, miękki cień pod spód */
+    box-shadow: 0 12px 25px rgba(46, 204, 113, 0.4), 0 4px 0 #27ae60 !important;
+}
+
+.btn-sub:hover {
+    transform: translateY(-4px) scale(1.03) !important;
+    box-shadow: 0 12px 25px rgba(52, 152, 219, 0.2) !important;
+}
+
+/* 2. Pasek światła (SHINE EFFECT) przygotowany do lotu */
+.btn-main::after, .btn-sub::after, .start-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%; /* Schowany daleko po lewej */
+    width: 100%;
+    height: 100%;
+    /* Gradient udający odbicie światła na szkle */
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    transform: skewX(-25deg); /* Lekko pochylony */
+    transition: 0.5s ease-in-out;
+}
+
+/* Kiedy najeżdżasz myszką, światło przelatuje na prawą stronę! */
+.btn-main:hover::after, .btn-sub:hover::after, .start-btn:hover:not(:disabled)::after {
+    left: 150%;
+}
+
+/* 3. Soczyste tąpnięcie przy kliknięciu (ACTIVE) */
+.btn-main:active, .btn-sub:active, .start-btn:active:not(:disabled) {
+    transform: translateY(4px) scale(0.95) !important; /* Wciska się i maleje */
+    box-shadow: 0 0px 0 #27ae60 !important; /* Cień 3D znika (bo wcisnęliśmy przycisk w dół) */
+    transition: all 0.1s !important; /* Bardzo szybka reakcja na kliknięcie */
+}
+
+/* SYSTEM POWIADOMIEŃ */
+.notification-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.toast {
+    background: white;
+    color: #2c3e50;
+    padding: 15px 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 300px;
+    animation: slideDownIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    border-left: 6px solid #e74c3c; /* Domyślnie czerwony (błąd) */
+}
+
+/* Kolory dla różnych typów powiadomień */
+.toast.error { border-left-color: #e74c3c; color: #c0392b; }
+.toast.success { border-left-color: #2ecc71; color: #27ae60; }
+.toast.info { border-left-color: #3498db; color: #2980b9; }
+
+@keyframes slideDownIn {
+    from { opacity: 0; transform: translateY(-50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Klasa do znikania */
+.toast.fade-out {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: 0.4s ease-in;
+}
+
+/* WATERMARK */
+.watermark {
+    position: fixed;
+    bottom: 8px;
+    right: 20px;
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.4); /* Lekko przezroczysty czarny */
+    font-family: 'Nunito', sans-serif;
+    pointer-events: none; /* Nie przeszkadza w klikaniu pod spodem */
+    z-index: 9999;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.watermark span {
+    font-weight: 800;
+    color: #9b59b6; /* Twój fioletowy kolor */
+}
+
+/* Styl dla Trybu Ciemnego */
+body.dark-theme .watermark {
+    color: rgba(255, 255, 255, 0.3); /* Lekko przezroczysty biały */
+}
+
+body.dark-theme .watermark span {
+    color: #a29bfe; /* Jaśniejszy fiolet dla lepszego kontrastu */
+}
+
+/* Mały bajer - gdy ktoś najedzie myszką w okolice rogu, napis się rozjaśni */
+body:hover .watermark {
+    opacity: 1;
+    color: rgba(0, 0, 0, 0.7);
+}
+body.dark-theme:hover .watermark {
+    color: rgba(255, 255, 255, 0.6);
+}

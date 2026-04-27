@@ -1,0 +1,158 @@
+/* ustawienia.css */
+
+/* Przycisk ustawień w headerze */
+.btn-settings {
+    background: #f0f4f8; border: none; padding: 10px 15px; border-radius: 12px;
+    font-size: 1rem; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 0 #e0e0e0;
+}
+.btn-settings:hover { background: #3498db; color: white; box-shadow: 0 4px 0 #2980b9; transform: translateY(-2px); }
+
+/* Okienko (Modal) */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.6); z-index: 999; display: flex;
+    justify-content: center; align-items: center; backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s forwards;
+}
+
+.modal-content {
+    background: white; width: 90%; max-width: 500px; padding: 30px;
+    border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    transform: scale(0.9); animation: popIn 0.3s forwards;
+}
+
+.modal-content h2 { margin-top: 0; color: #2c3e50; border-bottom: 2px solid #f0f4f8; padding-bottom: 15px; }
+
+.setting-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 15px 0; border-bottom: 1px solid #f0f4f8; gap: 20px;
+}
+.setting-info h4 { margin: 0 0 5px 0; color: #34495e; }
+.setting-info p { margin: 0; font-size: 0.85rem; color: #7f8c8d; }
+
+/* Suwak głośności */
+input[type=range] {
+    -webkit-appearance: none; width: 120px; background: transparent;
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%;
+    background: #9b59b6; cursor: pointer; margin-top: -8px; box-shadow: 0 0 10px rgba(155, 89, 182, 0.5);
+}
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%; height: 6px; cursor: pointer; background: #ecf0f1; border-radius: 5px;
+}
+
+/* Przełącznik jak w iOS */
+.switch { position: relative; display: inline-block; width: 50px; height: 28px; flex-shrink: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider-toggle {
+    position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc; transition: .4s;
+}
+.slider-toggle:before {
+    position: absolute; content: ""; height: 20px; width: 20px;
+    left: 4px; bottom: 4px; background-color: white; transition: .4s;
+}
+input:checked + .slider-toggle { background-color: #2ecc71; }
+input:checked + .slider-toggle:before { transform: translateX(22px); }
+.slider-toggle.round { border-radius: 34px; }
+.slider-toggle.round:before { border-radius: 50%; }
+
+/* Animacje modalu */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes popIn { from { transform: scale(0.8); } to { transform: scale(1); } }
+
+/* =========================================
+   TRYB CIEMNY (DARK MODE) NADPISANIA
+   ========================================= */
+body.dark-theme {
+    background-color: #121212 !important;
+}
+
+body.dark-theme #app {
+    background-color: #1e272e !important;
+    border-color: #2f3542 !important;
+    color: #ecf0f1 !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5) !important;
+}
+
+body.dark-theme h1, body.dark-theme h2, body.dark-theme h3, body.dark-theme h4, body.dark-theme p {
+    color: #ecf0f1 !important;
+}
+
+/* Karta Główna i Karty w Trybie Ciemnym + GŁÓWNE TŁO BAZY WIEDZY */
+body.dark-theme .ui-card, body.dark-theme .lesson-card, body.dark-theme .main-header, 
+body.dark-theme .learn-sidebar, body.dark-theme .modal-content, body.dark-theme .advanced-details-box,
+body.dark-theme .learn-layout /* <--- To była brakująca klasa! */ {
+    background-color: #2f3640 !important;
+    border-color: #353b48 !important;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2) !important;
+    color: #f5f6fa !important;
+}
+
+body.dark-theme .setting-item { border-color: #353b48 !important; }
+body.dark-theme .setting-info h4 { color: #f5f6fa !important; }
+
+/* Dostosowanie przycisków tematów w Trybie Ciemnym */
+body.dark-theme .topic-btn { background: #2f3640; border-color: #353b48; color: #ecf0f1; }
+body.dark-theme .topic-btn:hover, body.dark-theme .topic-btn.active { background: #8e44ad; color: white; border-color: #9b59b6; }
+
+/* POPRAWKI DLA CZYTELNOŚCI BAZY WIEDZY W TRYBIE CIEMNYM */
+body.dark-theme .learn-sidebar { border-right-color: #353b48 !important; }
+body.dark-theme .advanced-medical-wrapper { border-top-color: #353b48 !important; }
+
+/* Kolor tekstu dla akapitów i list wewnątrz artykułu (łagodny szary) */
+body.dark-theme .rich-text-content p, 
+body.dark-theme .rich-text-content ul, 
+body.dark-theme .rich-text-content li { 
+    color: #dcdde1 !important; 
+}
+
+/* Tytuł artykułu na czysto biało */
+body.dark-theme #article-title { 
+    color: #ffffff !important; 
+}
+
+/* Czerwone ramki ostrzegawcze w mrocznym klimacie */
+body.dark-theme .warning-box {
+    background-color: rgba(231, 76, 60, 0.1) !important;
+    border-left-color: #e74c3c !important;
+    color: #ff7675 !important;
+}
+
+/* Przycisk "Rozwiń zaawansowane szczegóły" */
+body.dark-theme .btn-expand-medical {
+    background-color: #2f3640 !important;
+    border-color: #3498db !important;
+}
+body.dark-theme .btn-expand-medical:hover {
+    background-color: #3498db !important;
+    color: white !important;
+}
+
+/* Poprawka dla kart bocznych w quizie (Neon Mode) */
+body.dark-theme .side-ui-card {
+    background-color: #2f3640 !important;
+    border-color: #353b48 !important;
+    color: #ecf0f1 !important;
+}
+
+/* Teksty wewnątrz kart bocznych quizu */
+body.dark-theme .lesson-neon-title, 
+body.dark-theme .stats-focus-card h4,
+body.dark-theme .hint-card h4,
+body.dark-theme .hint-card p {
+    color: #ecf0f1 !important;
+}
+
+/* Poprawka dla badge "Tryb Głębokiego Skupienia" w Dark Mode */
+body.dark-theme .focus-badge {
+    background: #1e272e !important;
+    color: #1abc9c !important;
+}
+
+/* Aby karta asystenta w Dark Mode była czytelna */
+body.dark-theme .hint-card {
+    background: #2f3640 !important;
+    border-color: #353b48 !important;
+}

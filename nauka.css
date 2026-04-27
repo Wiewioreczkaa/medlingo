@@ -1,0 +1,202 @@
+/* nauka.css - STYL BAZY WIEDZY */
+
+/* Przycisk Magiczny na Dashboardzie */
+.btn-learn-magic {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    color: white; border: none; padding: 10px 20px; border-radius: 15px;
+    font-weight: 800; cursor: pointer; box-shadow: 0 4px 0 #732d91;
+    position: relative; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.btn-learn-magic:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(155, 89, 182, 0.4); }
+.btn-learn-magic:active { transform: translateY(2px); box-shadow: 0 0px 0 #732d91; }
+
+/* Tooltip "Naucz mnie!" pojawiający się po najechaniu */
+.btn-learn-magic::before {
+    content: attr(data-tooltip); position: absolute; top: -40px; left: 50%;
+    transform: translateX(-50%) scale(0); background: #2c3e50; color: white;
+    padding: 5px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: bold;
+    transition: 0.2s; pointer-events: none; opacity: 0; white-space: nowrap;
+}
+.btn-learn-magic::after {
+    content: ''; position: absolute; top: -12px; left: 50%; transform: translateX(-50%) scale(0);
+    border-width: 6px; border-style: solid; border-color: #2c3e50 transparent transparent transparent;
+    transition: 0.2s; opacity: 0; pointer-events: none;
+}
+.btn-learn-magic:hover::before, .btn-learn-magic:hover::after { transform: translateX(-50%) scale(1); opacity: 1; }
+
+/* Układ Trybu Nauki */
+.learn-layout {
+    display: grid; grid-template-columns: 300px 1fr; gap: 30px;
+    height: calc(85vh - 60px); background: white; border-radius: 30px;
+    padding: 20px; box-shadow: inset 0 0 20px rgba(0,0,0,0.02);
+}
+
+.learn-sidebar {
+    background: #fdfdfd; border-right: 2px solid #f0f4f8; padding-right: 20px;
+    overflow-y: auto; display: flex; flex-direction: column;
+}
+
+.learn-sidebar h3 { color: #2c3e50; margin-bottom: 20px; }
+
+.topic-btn {
+    background: white; border: 2px solid #ecf0f1; width: 100%; text-align: left;
+    padding: 15px; border-radius: 15px; margin-bottom: 10px; font-weight: 700;
+    color: #34495e; cursor: pointer; transition: 0.2s;
+}
+.topic-btn:hover, .topic-btn.active { border-color: #9b59b6; background: #faf4ff; color: #8e44ad; transform: translateX(5px); }
+
+.learn-content-area { overflow-y: auto; padding: 20px 40px; }
+
+.empty-state-learn { text-align: center; color: #95a5a6; margin-top: 10vh; }
+.learn-icon-big { font-size: 80px; margin-bottom: 20px; opacity: 0.5; animation: float 3s infinite; }
+
+/* Formatowanie bogatego tekstu medycznego */
+#article-title { font-size: 2.5rem; color: #2c3e50; margin-bottom: 10px; }
+.article-badge { background: #ffeaa7; color: #d35400; display: inline-block; padding: 5px 15px; border-radius: 12px; font-weight: 800; font-size: 0.9rem; margin-bottom: 30px; }
+
+.rich-text-content h4 { color: #9b59b6; font-size: 1.3rem; margin-top: 30px; border-bottom: 2px solid #f0f4f8; padding-bottom: 5px; }
+.rich-text-content p { font-size: 1.1rem; line-height: 1.8; color: #555; }
+.rich-text-content ul { line-height: 1.8; color: #555; font-size: 1.1rem; }
+.rich-text-content strong { color: #2c3e50; }
+.warning-box { background: #fdeaea; border-left: 5px solid #e74c3c; padding: 15px; margin: 20px 0; border-radius: 0 10px 10px 0; color: #c0392b; font-weight: 600; }
+
+/* =========================================
+   PRZYCISK POWROTU (LEWY PANEL NAUKI)
+   ========================================= */
+
+.learn-sidebar .back-btn {
+    background: #ffffff;
+    color: #7f8c8d;
+    border: 2px solid #e0e0e0;
+    padding: 15px 20px;
+    border-radius: 15px;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 0 #e0e0e0;
+    width: 100%;
+    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.learn-sidebar .back-btn:hover {
+    background: #ff7675; /* Ładny, pastelowy czerwony */
+    color: white;
+    border-color: #ff7675;
+    box-shadow: 0 8px 15px rgba(255, 118, 117, 0.3), 0 4px 0 #d63031;
+    transform: translateY(-4px);
+}
+
+.learn-sidebar .back-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 0px 0 #d63031;
+    transition: all 0.1s;
+}
+
+/* =========================================
+   NOWOCZESNY SCROLLBAR (TRYB NAUKI)
+   ========================================= */
+
+/* Działa w lewym panelu i głównym oknie czytania */
+.learn-sidebar::-webkit-scrollbar, 
+.learn-content-area::-webkit-scrollbar {
+    width: 8px; /* Wąski i elegancki */
+}
+
+.learn-sidebar::-webkit-scrollbar-track, 
+.learn-content-area::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+.learn-sidebar::-webkit-scrollbar-thumb, 
+.learn-content-area::-webkit-scrollbar-thumb {
+    background: #dcdde1;
+    border-radius: 10px;
+}
+
+.learn-sidebar::-webkit-scrollbar-thumb:hover, 
+.learn-content-area::-webkit-scrollbar-thumb:hover {
+    background: #9b59b6; /* Podświetla się na nasz fioletowy kolor! */
+}
+
+/* =========================================
+   ROZWIJANE SZCZEGÓŁY MEDYCZNE
+   ========================================= */
+
+.advanced-medical-wrapper {
+    margin-top: 40px;
+    border-top: 2px dashed #ecf0f1;
+    padding-top: 25px;
+}
+
+.btn-expand-medical {
+    background: #fdfdfd;
+    border: 2px solid #3498db;
+    color: #3498db;
+    padding: 15px 25px;
+    border-radius: 15px;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: inherit;
+}
+
+.btn-expand-medical:hover {
+    background: #3498db;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(52, 152, 219, 0.3);
+}
+
+.advanced-content-hidden {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease-out, opacity 0.3s ease, margin-top 0.3s ease;
+}
+
+.advanced-content-visible {
+    max-height: 2000px; /* Pozwala zawartości się rozwinąć */
+    opacity: 1;
+    margin-top: 20px;
+    transition: max-height 0.6s ease-in, opacity 0.5s ease, margin-top 0.3s ease;
+}
+
+.advanced-details-box {
+    background: #f4f9f9;
+    border-left: 6px solid #1abc9c;
+    padding: 25px;
+    border-radius: 0 15px 15px 0;
+    font-size: 1.05rem;
+    color: #2c3e50;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+.advanced-details-box h5 {
+    color: #16a085;
+    font-size: 1.3rem;
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.advanced-details-box ul {
+    margin: 0; padding-left: 20px;
+}
+
+.advanced-details-box li {
+    margin-bottom: 10px;
+}

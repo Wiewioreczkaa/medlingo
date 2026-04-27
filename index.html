@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedLingo - Ucz się medycyny</title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/liS8sRu.png">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="kartagl.css">
+    <link rel="stylesheet" href="pytania.css">
+    <link rel="stylesheet" href="nauka.css">
+    <link rel="stylesheet" href="ustawienia.css">
+    <link rel="stylesheet" href="symulator.css">
+
+    <style>
+        /* Styl dla logo obok nazwy */
+        .brand-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .logo-circle {
+            width: 50px;
+            height: 50px;
+            background-image: url('https://i.imgur.com/liS8sRu.png');
+            background-size: contain; 
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="watermark">Developer aplikacji MedLingo: <span>Wiewior</span></div>
+    
+    <div id="notification-container" class="notification-container"></div>
+
+    <div id="app">
+        <section id="auth-section">
+            <div class="brand-wrapper">
+                <div class="logo-circle"></div>
+                <h1>MedLingo</h1>
+            </div>
+            
+            <p class="subtitle">Twoja przytulna przestrzeń do nauki medycyny</p>
+            
+            <div class="auth-form">
+                <input type="email" id="email" placeholder="Twój Adres Email">
+                <input type="password" id="password" placeholder="Hasło (min. 6 znaków)">
+                <button onclick="login()" class="btn-main">Zaloguj się</button>
+                <button onclick="register()" class="btn-sub">Załóż nowe konto</button>
+            </div>
+        </section>
+
+        <section id="dashboard-section" style="display: none;">
+            <div class="dashboard-layout">
+                
+                <aside class="sidebar sidebar-left">
+                    <div class="ui-card profile-card">
+                        <div id="dash-avatar" class="avatar-large">?</div>
+                        <h3 id="dash-user-display">Student</h3>
+                        <div class="level-badge">Poziom <span id="user-lvl">1</span></div>
+                        
+                        <div class="progress-section-mini">
+                            <p>Postęp do awansu:</p>
+                            <div class="mini-progress-bar"><div id="dash-level-bar"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="ui-card history-card">
+                        <h4>Ostatnia aktywność 📝</h4>
+                        <div id="history-list">
+                            <p class="empty-state" style="color: #95a5a6; font-size: 0.85rem;">Brak ukończonych lekcji.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <button onclick="openSettings()" class="btn-settings" style="width: 100%;">⚙️ Ustawienia</button>
+                        <button onclick="logout()" class="btn-sub btn-logout" style="width: 100%; margin: 0;">Wyloguj się</button>
+                    </div>
+                </aside>
+
+                <main class="dashboard-center">
+                    <header class="center-header">
+                        <h2>Twoja ścieżka nauki</h2>
+                        <div class="header-actions" style="display: flex; gap: 15px; align-items: center;">
+                            <button class="btn-learn-magic" onclick="openLearnMode()" data-tooltip="Naucz mnie!">📖 Baza Wiedzy</button>
+                            <div class="stat-bubble">XP: <span id="dash-points">0</span></div>
+                        </div>
+                    </header>
+
+                    <div class="simulation-banner" onclick="openSimulationModules()">
+                        <div class="sim-banner-icon">🚑</div>
+                        <div class="sim-banner-text">
+                            <h3>Tryb Symulatora (Nowość!)</h3>
+                            <p>Praktyczne rozmowy i diagnozy pacjentów</p>
+                        </div>
+                        <div class="sim-banner-arrow">➔</div>
+                    </div>
+                    
+                    <div class="lessons-scroll-container">
+                        <div class="lesson-grid" id="lessons-list">
+                            </div>
+                    </div>
+                </main>
+
+                <aside class="sidebar sidebar-right">
+                    <div class="ui-card cozy-card-peach">
+                        <h4>Cel dzienny 🔥</h4>
+                        <p>Rozwiąż chociaż 1 lekcję, aby utrzymać swoją passę nauki!</p>
+                        <div class="daily-progress">
+                            <div class="daily-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="ui-card cozy-card-mint">
+                        <h4>Ciekawostka 💡</h4>
+                        <p>Czy wiesz, że długość wszystkich naczyń krwionośnych dorosłego człowieka to ponad 100 000 km?</p>
+                    </div>
+                </aside>
+                
+            </div>
+        </section>
+
+        <section id="game-section" style="display: none;">
+            <div class="quiz-layout">
+                
+                <aside class="quiz-sidebar">
+                    <div class="side-ui-card user-focus-card">
+                        <div class="avatar-pulse-container">
+                            <div id="quiz-avatar" class="avatar-medium">?</div>
+                        </div>
+                        <h3 id="lesson-title-side" class="lesson-neon-title">Moduł</h3>
+                        <div class="focus-badge">Tryb Głębokiego Skupienia</div>
+                    </div>
+
+                    <div class="side-ui-card stats-focus-card">
+                        <h4>Bieżące XP</h4>
+                        <div class="live-points">⭐ <span id="quiz-points-display">0</span></div>
+                    </div>
+                </aside>
+
+                <main class="quiz-center-card" id="quiz-container">
+                    <div class="quiz-nav">
+                        <div class="progress-track">
+                            <div id="lesson-progress-fill"></div>
+                        </div>
+                        <div id="question-counter" class="neon-counter">1/20</div>
+                    </div>
+                    
+                    <h2 id="question">Pytanie...</h2>
+                    <div id="answers"></div>
+                </main>
+
+                <aside class="quiz-sidebar">
+                    <button onclick="goToDashboard()" class="btn-exit-neon">
+                        <span class="icon">✖</span> Przerwij lekcję
+                    </button>
+                    
+                    <div class="side-ui-card hint-card">
+                        <div class="hint-icon">🩺</div>
+                        <h4>Asystent MedLingo</h4>
+                        <p id="medical-hint">Pamiętaj, by czytać uważnie. Pośpiech to największy wróg dobrego diagnosty!</p>
+                    </div>
+                </aside>
+
+            </div>
+        </section>
+
+        <section id="learn-section" style="display: none;">
+            <div class="learn-layout">
+                <aside class="learn-sidebar">
+                    <button onclick="goToDashboard()" class="back-btn" style="margin-bottom: 20px;">← Wróć</button>
+                    <h3>Katalog Wiedzy</h3>
+                    <div id="learn-topics-list">
+                        </div>
+                </aside>
+                <main class="learn-content-area">
+                    <div id="learn-content-placeholder" class="empty-state-learn">
+                        <div class="learn-icon-big">📚</div>
+                        <h2>Wybierz temat z listy po lewej</h2>
+                        <p>Zdobądź wiedzę, zanim ruszysz do testów!</p>
+                    </div>
+                    <article id="learn-article" style="display: none;">
+                        <h1 id="article-title">Tytuł</h1>
+                        <div class="article-badge" id="article-category">Kategoria</div>
+                        <div id="article-body" class="rich-text-content">
+                            </div>
+                    </article>
+                </main>
+            </div>
+        </section>
+
+        <section id="simulation-modules-section" style="display: none;">
+            <div class="top-bar" style="padding: 20px; text-align: center;">
+                <button class="back-btn" onclick="exitSimulation()" style="float: left;">⬅️ Wróć do menu</button>
+                <h2 style="display: inline-block;">Wybierz Moduł Symulacji</h2>
+            </div>
+            <div id="sim-modules-container" class="modules-grid">
+                </div>
+        </section>
+
+        <section id="simulation-map-section" style="display: none;">
+            <div class="top-bar" style="padding: 20px; text-align: center;">
+                <button class="back-btn" onclick="openSimulationModules()" style="float: left;">⬅️ Moduły</button>
+                <h2 id="map-module-title" style="display: inline-block;">Kariera</h2>
+            </div>
+            <div id="sim-map-container">
+                </div>
+        </section>
+
+        <section id="simulation-active-section" style="display: none; position: relative;">
+            <div class="top-bar" style="padding: 20px; text-align: center;">
+                <button class="back-btn" onclick="openSimulationMap(currentModuleIndex)" style="float: left;">⬅️ Przerwij</button>
+                <h2 id="sim-title" style="display: inline-block;">Symulacja</h2>
+            </div>
+            
+            <div id="simulation-container">
+                <div id="dialog-box" class="dialog-container">
+                    </div>
+                <div id="simulation-input-area" style="display: none;">
+                    <button class="skip-sim-btn" onclick="skipSimAnswer()" title="Nie znam odpowiedzi">🤷‍♂️</button>
+                    <input type="text" id="sim-answer" placeholder="Wpisz brakującą frazę medyczną..." autocomplete="off">
+                    <button class="check-sim-btn" onclick="checkSimAnswer()">Wyślij</button>
+                </div>
+                <button id="next-dialog-btn" class="next-btn" onclick="nextSimStep()">➡️ Kontynuuj</button>
+            </div>
+
+            <div id="sim-hint-overlay" class="sim-overlay" style="display: none;">
+                <div class="sim-hint-box">
+                    <h3>💡 Podpowiedź Asystenta</h3>
+                    <p id="sim-hint-text">Tekst podpowiedzi...</p>
+                </div>
+            </div>
+
+            <div id="sim-summary-overlay" class="sim-overlay" style="display: none;">
+                <div class="sim-summary-box">
+                    <h2>🩺 Raport Medyczny</h2>
+                    <p id="sim-summary-text">Podsumowanie przypadku...</p>
+                    <button class="btn-main" onclick="closeSimSummary()">Zakończ symulację</button>
+                </div>
+            </div>
+        </section>
+
+        <div id="settings-modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content">
+                <h2>Ustawienia Aplikacji ⚙️</h2>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h4>🎵 Muzyka w tle</h4>
+                        <p>Dostosuj głośność muzyki podczas nauki.</p>
+                    </div>
+                    <input type="range" id="music-vol" min="0" max="100" value="100" oninput="updateMusicVolume()">
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h4>🔊 Efekty dźwiękowe (SFX)</h4>
+                        <p>Dźwięki kliknięć oraz poprawnych odpowiedzi.</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="sfx-toggle" onchange="updateSFX()" checked>
+                        <span class="slider-toggle round"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h4>🌙 Tryb Ciemny (Dark Mode)</h4>
+                        <p>Oszczędzaj wzrok podczas nocnych powtórek.</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="dark-mode-toggle" onchange="toggleDarkMode()">
+                        <span class="slider-toggle round"></span>
+                    </label>
+                </div>
+
+                <button onclick="closeSettings()" class="btn-main" style="margin-top: 20px;">Zapisz i zamknij</button>
+            </div>
+        </div>
+
+        <section id="summary-section" style="display: none;">
+            <div class="summary-card">
+                <div class="success-icon">🎉</div>
+                <h1>Wspaniale!</h1>
+                <p id="summary-text"></p>
+                <div class="reward-box">+ XP Doświadczenia</div>
+                <button onclick="goToDashboard()" class="btn-main">Wróć do menu</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="animacje_kartaglowna.js"></script>
+    <script src="animacje_pytania.js"></script>
+    <script src="script.js"></script>
+    <script src="wizualizacje.js"></script>
+    <script src="efekty.js"></script>
+    <script src="nauka_wizualizacje.js"></script>
+    <script src="nauka_efekty.js"></script>
+    <script src="nauka_animacje.js"></script>
+    <script src="nauka.js"></script>
+    <script src="ustawienia.js"></script>
+    
+    <script src="symulacje_animacje.js"></script>
+    <script src="symulator_wizualizacja.js"></script>
+    <script src="symulator_efekty.js"></script>
+    <script src="symulator.js"></script>
+</body>
+</html>
