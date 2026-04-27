@@ -65,47 +65,6 @@ input:focus { border-color: var(--primary); background: white; }
 .btn-logout { border-color: #e74c3c; color: #e74c3c; margin-top: 0; }
 .btn-logout:hover { background: #fdf0ef; }
 
-/* --- NOWOŚĆ: SEPARATOR I PRZYCISK GOOGLE --- */
-.divider {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    margin: 25px 0 15px 0;
-    color: #95a5a6;
-    font-size: 0.9rem;
-    font-weight: 800;
-}
-.divider::before, .divider::after {
-    content: '';
-    flex: 1;
-    border-bottom: 2px solid #f1f2f6;
-}
-.divider span {
-    padding: 0 15px;
-}
-
-.btn-google {
-    background: #ffffff;
-    color: #34495e;
-    border: 2px solid #f1f2f6;
-    width: 100%;
-    padding: 16px;
-    border-radius: 20px;
-    font-weight: 800;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    font-size: 1rem;
-    font-family: inherit;
-    margin-top: 5px;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-}
-
-
 /* --- WIZUALIZACJE W TLE --- */
 
 #background-visuals {
@@ -114,26 +73,38 @@ input:focus { border-color: var(--primary); background: white; }
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: -1; 
-    pointer-events: none; 
+    z-index: -1; /* Chowa warstwę ZA całą Twoją aplikacją */
+    pointer-events: none; /* Sprawia, że warstwa jest "przezroczysta" dla myszki, nie blokuje klikania */
     overflow: hidden;
 }
 
 .floating-icon {
     position: absolute;
-    bottom: -50px; 
-    opacity: 0; 
-    animation: floatUp linear infinite; 
+    bottom: -50px; /* Startują nieco poniżej krawędzi ekranu */
+    opacity: 0; /* Zaczynają jako niewidoczne */
+    animation: floatUp linear infinite; /* Ciągła, nieskończona animacja */
     filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
 }
 
+/* Klatki kluczowe animacji unoszenia się i obracania */
 @keyframes floatUp {
-    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.15; }
-    90% { opacity: 0.15; }
-    100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+    0% { 
+        transform: translateY(0) rotate(0deg); 
+        opacity: 0; 
+    }
+    10% { 
+        opacity: 0.15; /* Delikatna przezroczystość, by nie rozpraszały */
+    }
+    90% { 
+        opacity: 0.15; 
+    }
+    100% { 
+        transform: translateY(-110vh) rotate(360deg); /* Lecą do samej góry i obracają się o 360 stopni */
+        opacity: 0; 
+    }
 }
 
+/* W trybie Neon (Karta Pytań) zmieniamy ikony na białe dla lepszego klimatu! */
 body:has(#game-section[style*="display: block"]) .floating-icon {
     filter: grayscale(100%) brightness(200%) drop-shadow(0 0 5px rgba(255,255,255,0.3));
     opacity: 0.05 !important;
@@ -144,29 +115,35 @@ body:has(#game-section[style*="display: block"]) .floating-icon {
 .ripple-effect {
     position: absolute;
     border-radius: 50%;
-    transform: scale(0); 
+    transform: scale(0); /* Zaczyna jako kropka */
     animation: ripple-anim 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    background: rgba(255, 255, 255, 0.4); 
-    pointer-events: none; 
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); 
+    background: rgba(255, 255, 255, 0.4); /* Półprzezroczysty biały blask */
+    pointer-events: none; /* Zapobiega blokowaniu kolejnych kliknięć */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); /* Dodatkowy neonowy glow */
 }
 
 @keyframes ripple-anim {
-    to { transform: scale(4); opacity: 0; }
+    to {
+        transform: scale(4); /* Rozrasta się na cały przycisk */
+        opacity: 0;          /* I płynnie znika */
+    }
 }
 
 /* ====================================================
    EFEKTY BŁYSKU I SPRĘŻYSTEGO KLIKNIĘCIA (JUICY BUTTONS)
    ==================================================== */
 
-.btn-main, .btn-sub, .start-btn, .btn-google {
+.btn-main, .btn-sub, .start-btn {
     position: relative;
-    overflow: hidden; 
+    overflow: hidden; /* Trzyma błysk wewnątrz przycisku */
+    /* cubic-bezier odpowiada za efekt sprężyny (wyskakuje minimalnie poza skalę i wraca) */
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important; 
 }
 
+/* 1. Unoszenie i powiększanie (HOVER) */
 .btn-main:hover, .start-btn:hover:not(:disabled) {
     transform: translateY(-4px) scale(1.03) !important;
+    /* Dodajemy ładny, miękki cień pod spód */
     box-shadow: 0 12px 25px rgba(46, 204, 113, 0.4), 0 4px 0 #27ae60 !important;
 }
 
@@ -175,33 +152,30 @@ body:has(#game-section[style*="display: block"]) .floating-icon {
     box-shadow: 0 12px 25px rgba(52, 152, 219, 0.2) !important;
 }
 
-/* Google hover efekty */
-.btn-google:hover {
-    transform: translateY(-4px) scale(1.03) !important;
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.06) !important;
-    border-color: #dfe6e9 !important;
-}
-
-.btn-main::after, .btn-sub::after, .start-btn::after, .btn-google::after {
+/* 2. Pasek światła (SHINE EFFECT) przygotowany do lotu */
+.btn-main::after, .btn-sub::after, .start-btn::after {
     content: '';
     position: absolute;
     top: 0;
-    left: -150%; 
+    left: -150%; /* Schowany daleko po lewej */
     width: 100%;
     height: 100%;
+    /* Gradient udający odbicie światła na szkle */
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-    transform: skewX(-25deg); 
+    transform: skewX(-25deg); /* Lekko pochylony */
     transition: 0.5s ease-in-out;
 }
 
-.btn-main:hover::after, .btn-sub:hover::after, .start-btn:hover:not(:disabled):after, .btn-google:hover::after {
+/* Kiedy najeżdżasz myszką, światło przelatuje na prawą stronę! */
+.btn-main:hover::after, .btn-sub:hover::after, .start-btn:hover:not(:disabled)::after {
     left: 150%;
 }
 
-.btn-main:active, .btn-sub:active, .start-btn:active:not(:disabled), .btn-google:active {
-    transform: translateY(4px) scale(0.95) !important; 
-    box-shadow: 0 0px 0 transparent !important; 
-    transition: all 0.1s !important; 
+/* 3. Soczyste tąpnięcie przy kliknięciu (ACTIVE) */
+.btn-main:active, .btn-sub:active, .start-btn:active:not(:disabled) {
+    transform: translateY(4px) scale(0.95) !important; /* Wciska się i maleje */
+    box-shadow: 0 0px 0 #27ae60 !important; /* Cień 3D znika (bo wcisnęliśmy przycisk w dół) */
+    transition: all 0.1s !important; /* Bardzo szybka reakcja na kliknięcie */
 }
 
 /* SYSTEM POWIADOMIEŃ */
@@ -229,9 +203,10 @@ body:has(#game-section[style*="display: block"]) .floating-icon {
     gap: 12px;
     min-width: 300px;
     animation: slideDownIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    border-left: 6px solid #e74c3c; 
+    border-left: 6px solid #e74c3c; /* Domyślnie czerwony (błąd) */
 }
 
+/* Kolory dla różnych typów powiadomień */
 .toast.error { border-left-color: #e74c3c; color: #c0392b; }
 .toast.success { border-left-color: #2ecc71; color: #27ae60; }
 .toast.info { border-left-color: #3498db; color: #2980b9; }
@@ -241,6 +216,7 @@ body:has(#game-section[style*="display: block"]) .floating-icon {
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* Klasa do znikania */
 .toast.fade-out {
     opacity: 0;
     transform: translateY(-20px);
@@ -253,9 +229,9 @@ body:has(#game-section[style*="display: block"]) .floating-icon {
     bottom: 8px;
     right: 20px;
     font-size: 0.75rem;
-    color: rgba(0, 0, 0, 0.4); 
+    color: rgba(0, 0, 0, 0.4); /* Lekko przezroczysty czarny */
     font-family: 'Nunito', sans-serif;
-    pointer-events: none; 
+    pointer-events: none; /* Nie przeszkadza w klikaniu pod spodem */
     z-index: 9999;
     letter-spacing: 0.5px;
     transition: all 0.3s ease;
@@ -263,17 +239,19 @@ body:has(#game-section[style*="display: block"]) .floating-icon {
 
 .watermark span {
     font-weight: 800;
-    color: #9b59b6; 
+    color: #9b59b6; /* Twój fioletowy kolor */
 }
 
+/* Styl dla Trybu Ciemnego */
 body.dark-theme .watermark {
-    color: rgba(255, 255, 255, 0.3); 
+    color: rgba(255, 255, 255, 0.3); /* Lekko przezroczysty biały */
 }
 
 body.dark-theme .watermark span {
-    color: #a29bfe; 
+    color: #a29bfe; /* Jaśniejszy fiolet dla lepszego kontrastu */
 }
 
+/* Mały bajer - gdy ktoś najedzie myszką w okolice rogu, napis się rozjaśni */
 body:hover .watermark {
     opacity: 1;
     color: rgba(0, 0, 0, 0.7);
